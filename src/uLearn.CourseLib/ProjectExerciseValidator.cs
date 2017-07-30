@@ -29,6 +29,18 @@ namespace uLearn
 
 		public void ValidateExercises()
 		{
+			var projItems = new Project(ex.CsprojFile.FullName, null, null, new ProjectCollection()).Items;
+			var compile = string.Join("\r\n", projItems.Where(pi => pi.ItemType == "Compile").Select(i => i.UnevaluatedInclude));
+			var content = string.Join("\r\n", projItems.Where(pi => pi.ItemType == "Content").Select(i => i.UnevaluatedInclude));
+			Console.WriteLine($@"Method(ValidateExercises) at bootstrap
+Csproj Compiles:
+{compile}
+
+Csproj Contents:
+{content}
+
+
+");
 			if (ReportErrorIfExerciseFolderMissesRequiredFiles())
 				return;
 
@@ -79,6 +91,19 @@ namespace uLearn
 			var submission = ex.CreateSubmission(ex.CsprojFileName, solutionCode);
 			var result = SandboxRunner.Run(submission, new SandboxRunnerSettings());
 
+			var projItems = new Project(ex.CsprojFile.FullName, null, null, new ProjectCollection()).Items;
+			var compile = string.Join("\r\n", projItems.Where(pi => pi.ItemType == "Compile").Select(i => i.UnevaluatedInclude));
+			var content = string.Join("\r\n", projItems.Where(pi => pi.ItemType == "Content").Select(i => i.UnevaluatedInclude));
+			Console.WriteLine($@"Method(ReportErrorIfSolutionNotBuildingOrNotPassesTests)
+after SandboxRunner.Run with solution code: 
+Csproj Compiles:
+{compile}
+
+Csproj Contents:
+{content}
+
+
+");
 			if (VerdictIsNotOk(result))
 				ReportError($"Correct solution file {ex.CorrectSolutionFileName} verdict is not OK. RunResult = {result}");
 
@@ -96,6 +121,19 @@ namespace uLearn
 			{
 				var result = SandboxRunner.Run(ex.CreateSubmission(waFile.Name, waFile.ContentAsUtf8()));
 
+				var projItems = new Project(ex.CsprojFile.FullName, null, null, new ProjectCollection()).Items;
+				var compile = string.Join("\r\n", projItems.Where(pi => pi.ItemType == "Compile").Select(i => i.UnevaluatedInclude));
+				var content = string.Join("\r\n", projItems.Where(pi => pi.ItemType == "Content").Select(i => i.UnevaluatedInclude));
+				Console.WriteLine($@"Method(ReportWarningIfWrongAnswersAreSolutionsOrNotOk)
+after SandboxRunner.Run({waFile.Name}): 
+Csproj Compiles:
+{compile}
+
+Csproj Contents:
+{content}
+
+
+");
 				ReportWarningIfWrongAnswerVerdictIsNotOk(waFile.Name, result);
 				ReportWarningIfWrongAnswerIsSolution(waFile.Name, result);
 			}
@@ -179,6 +217,20 @@ namespace uLearn
 		{
 			var csproj = unpackedZipDir.GetFiles(ex.CsprojFileName).Single();
 
+			var projItems = new Project(csproj.FullName, null, null, new ProjectCollection()).Items;
+			var compile = string.Join("\r\n", projItems.Where(pi => pi.ItemType == "Compile").Select(i => i.UnevaluatedInclude));
+			var content = string.Join("\r\n", projItems.Where(pi => pi.ItemType == "Content").Select(i => i.UnevaluatedInclude));
+			Console.WriteLine($@"Method(ReportErrorIfCsprojHasUserCodeOfNotCompileType)
+after unpacking to {unpackedZipDir}
+contained files: {string.Join("\r\n", FileSystem.GetFiles(unpackedZipDir.FullName, SearchOption.SearchAllSubDirectories).Select(path => new FileInfo(path)).Select(f => f.GetRelativePath(unpackedZipDir.FullName)))}
+UNPACKED Csproj Compiles:
+{compile}
+
+UNPACKED Csproj Contents:
+{content}
+
+
+");
 			var userCode = new Project(csproj.FullName, null, null, new ProjectCollection()).Items
 				.Single(i => i.UnevaluatedInclude.Equals(ex.UserCodeFilePath, StringComparison.InvariantCultureIgnoreCase));
 
