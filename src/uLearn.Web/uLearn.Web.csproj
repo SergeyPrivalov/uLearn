@@ -376,12 +376,6 @@
     <Compile Include="Extensions\UserExtensions.cs" />
     <Compile Include="Helpers\ExcelWorksheetBuilder.cs" />
     <Compile Include="Helpers\TelegramHelper.cs" />
-    <Compile Include="Kontur.Passport\KonturPassportConstants.cs" />
-    <Compile Include="Kontur.Passport\KonturPassportAuthenticationExtensions.cs" />
-    <Compile Include="Kontur.Passport\KonturPassportAuthenticationHandler.cs" />
-    <Compile Include="Kontur.Passport\KonturPassportAuthenticationMiddleware.cs" />
-    <Compile Include="Kontur.Passport\KonturPassportAuthenticationOptions.cs" />
-    <Compile Include="Kontur.Passport\Provider\KonturPassportReturnEndpointContext.cs" />
     <Compile Include="Models\AcceptedSolutionsPageModel.cs" />
     <Compile Include="Models\AccountViewModels.cs" />
     <Compile Include="Models\AnalyticsTablePageModel.cs" />
@@ -1141,8 +1135,6 @@
     <Content Include="Views\Feed\NotificationsTopbarPartial.cshtml" />
     <Content Include="Views\Feed\NotificationsPartial.cshtml" />
     <Content Include="Views\Login\LinkLogin.cshtml" />
-    <Content Include="Views\Login\EnsureKonturProfileLogin.cshtml" />
-    <Content Include="Views\Login\AddKonturProfileLogin.cshtml" />
     <Content Include="Views\Login\_LoginForm.cshtml" />
     <Content Include="Views\Feed\Index.cshtml" />
     <Content Include="Views\Shared\Notifications.cshtml">

@@ -8,9 +8,7 @@ using System.Web.Mvc;
 using System.Web.Routing;
 using Database.DataContexts;
 using Microsoft.AspNet.Identity;
-using SkbKontur.Passport.Client;
 using uLearn.Extensions;
-using uLearn.Web.Kontur.Passport;
 
 namespace uLearn.Web
 {
@@ -91,33 +89,11 @@ namespace uLearn.Web
 		{
 			var httpContext = filterContext.RequestContext.HttpContext;
 
-			var queryString = httpContext.Request.QueryString;
-			var queryStringParams = HttpUtility.ParseQueryString(queryString.ToString()).ToDictionary();
-			var konturPassportRequired = Convert.ToBoolean(queryStringParams.GetOrDefault(queryStringParameterName, "false"));
-
-			if (!konturPassportRequired)
-				return;
-
 			var originalUrl = httpContext.Request.Url?.ToString().RemoveQueryParameter(queryStringParameterName) ?? "";
 
 			var isAuthenticated = httpContext.User.Identity.IsAuthenticated;
 			if (isAuthenticated)
 			{
-				var userId = httpContext.User.Identity.GetUserId();
-				var user = userManager.FindById(userId);
-				var hasKonturPassportLogin = user.Logins.Any(l => l.LoginProvider == KonturPassportConstants.AuthenticationType);
-				if (hasKonturPassportLogin)
-				{
-					filterContext.Result = new RedirectResult(originalUrl);
-					return;
-				}
-
-				/* Try to link Kontur.Passport account to current user */
-				filterContext.Result = RedirectToAction("LinkLogin", "Login", new
-				{
-					provider = KonturPassportConstants.AuthenticationType,
-					returnUrl = originalUrl,
-				});
 			}
 			else
 			{

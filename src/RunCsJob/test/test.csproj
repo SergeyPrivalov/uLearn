@@ -12,7 +12,7 @@
     <TargetFrameworkVersion>v4.7</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
     <AutoGenerateBindingRedirects>true</AutoGenerateBindingRedirects>
-    <CscToolPath>C:\Users\andgein\Documents\Work\ulearn\uLearn\src\RunCsJob\bin\Debug\Microsoft.Net.Compilers.2.2.0</CscToolPath>
+    <CscToolPath>M:\WorkshopApplets\_work\uLearn\src\RunCsJob\bin\Debug\Microsoft.Net.Compilers.2.2.0</CscToolPath>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
     <PlatformTarget>AnyCPU</PlatformTarget>
@@ -36,6 +36,7 @@
   <ItemGroup>
     <Reference Include="System" />
     <Reference Include="System.Core" />
+    <Reference Include="System.Reflection" />
     <Reference Include="System.Runtime" />
     <Reference Include="System.ValueTuple" />
     <Reference Include="System.Xml.Linq" />

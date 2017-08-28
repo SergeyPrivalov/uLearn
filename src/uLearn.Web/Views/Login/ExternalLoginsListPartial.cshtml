@@ -1,6 +1,5 @@
 ﻿@model ExternalLoginsListModel
 @using Microsoft.Owin.Security
-@using uLearn.Web.Kontur.Passport
 
 @{
 	var loginProviders = Context.GetOwinContext().Authentication.GetExternalAuthenticationTypes().Where(
@@ -35,12 +34,6 @@
 					{
 						if (Model.Type == ExternalLoginListType.Login || Model.Type == ExternalLoginListType.Registration)
 						{
-							if (p.AuthenticationType == KonturPassportConstants.AuthenticationType)
-							{
-								<div class="strike-line grey">
-									<span>или войдите как сотрудник Контура</span>
-								</div>
-							}
 							<button type="submit" class="ph-btn ph-btn-blue btn-block" id="@p.AuthenticationType" name="provider" value="@p.AuthenticationType" title="Войдите, используя ваш аккаунт @p.Caption">
 								Войти через @p.AuthenticationType
 							</button>

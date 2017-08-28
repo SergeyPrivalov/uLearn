@@ -9,7 +9,6 @@ using Microsoft.AspNet.Identity;
 using Microsoft.Owin.Security;
 using uLearn.Extensions;
 using uLearn.Web.FilterAttributes;
-using uLearn.Web.Kontur.Passport;
 using uLearn.Web.Microsoft.Owin.Security.VK;
 using uLearn.Web.Models;
 
@@ -95,8 +94,6 @@ namespace uLearn.Web.Controllers
 
 			if (loginInfo.ExternalIdentity.AuthenticationType == VkAuthenticationConstants.AuthenticationType)
 				metricSender.SendCount("registration.via_vk.try");
-			else if (loginInfo.ExternalIdentity.AuthenticationType == KonturPassportConstants.AuthenticationType)
-				metricSender.SendCount("registration.via_kontur_passport.try");
 
 			// If the user does not have an account, then prompt the user to create an account
 			ViewBag.ReturnUrl = returnUrl;
@@ -155,8 +152,6 @@ namespace uLearn.Web.Controllers
 						metricSender.SendCount("registration.success");
 						if (info.ExternalIdentity.AuthenticationType == VkAuthenticationConstants.AuthenticationType)
 							metricSender.SendCount("registration.via_vk.success");
-						else if (info.ExternalIdentity.AuthenticationType == KonturPassportConstants.AuthenticationType)
-							metricSender.SendCount("registration.via_kontur_passport.success");
 
 						return Redirect(this.FixRedirectUrl(returnUrl));
 					}
@@ -227,25 +222,6 @@ namespace uLearn.Web.Controllers
 				model.UserLogins = user.Logins.ToList();
 			}
 			return PartialView(model);
-		}
-
-		public ActionResult EnsureKonturProfileLogin(string returnUrl)
-		{
-			if (User.Identity.IsAuthenticated)
-			{
-				var userId = User.Identity.GetUserId();
-				var user = userManager.FindById(userId);
-				var hasKonturPassportLogin = user.Logins.Any(l => l.LoginProvider == KonturPassportConstants.AuthenticationType);
-				if (hasKonturPassportLogin)
-					return Redirect(this.FixRedirectUrl(returnUrl));
-
-				return View("AddKonturProfileLogin", model: returnUrl);
-			}
-			else
-			{
-				var newReturnUrl = Url.Action("EnsureKonturProfileLogin", "Login", new { returnUrl = returnUrl });
-				return View("EnsureKonturProfileLogin", model: newReturnUrl);
-			}
 		}
 
 		private const string XsrfKey = "XsrfId";
