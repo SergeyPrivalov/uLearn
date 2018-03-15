@@ -10,6 +10,7 @@ using AntiPlagiarism.Web.Database.Models;
 using AntiPlagiarism.Web.Database.Repos;
 using AntiPlagiarism.Web.Extensions;
 using Microsoft.Extensions.Options;
+using Serilog;
 using Ulearn.Common;
 
 namespace AntiPlagiarism.Web.CodeAnalyzing
@@ -19,24 +20,30 @@ namespace AntiPlagiarism.Web.CodeAnalyzing
 		private readonly ISnippetsRepo snippetsRepo;
 		private readonly ISubmissionsRepo submissionsRepo;
 		private readonly CodeUnitsExtractor codeUnitsExtractor;
+		private readonly ILogger logger;
 		private readonly AntiPlagiarismConfiguration configuration;
 
 		public PlagiarismDetector(
 			ISnippetsRepo snippetsRepo, ISubmissionsRepo submissionsRepo,
 			CodeUnitsExtractor codeUnitsExtractor,
+			ILogger logger,
 			IOptions<AntiPlagiarismConfiguration> options)
 		{
 			this.snippetsRepo = snippetsRepo;
 			this.submissionsRepo = submissionsRepo;
 			this.codeUnitsExtractor = codeUnitsExtractor;
+			this.logger = logger;
 			configuration = options.Value;
 		}
 
 		public async Task<double> GetWeightAsync(Submission firstSubmission, Submission secondSubmission)
 		{
+			logger.Information($"Вычисляю коэффициент похожести решения #{firstSubmission.Id} и #{secondSubmission.Id}");
 			var maxSnippetsCount = configuration.PlagiarismDetector.CountOfColdestSnippetsUsedToSearch;
 			var snippetsOccurencesOfFirstSubmission = await snippetsRepo.GetSnippetsOccurencesForSubmissionAsync(firstSubmission, maxSnippetsCount);
+			logger.Debug($"Сниппеты первого решения: [{string.Join(", ", snippetsOccurencesOfFirstSubmission)}]");
 			var snippetsOccurencesOfSecondSubmission = await snippetsRepo.GetSnippetsOccurencesForSubmissionAsync(secondSubmission, maxSnippetsCount);
+			logger.Debug($"Сниппеты второго решения: [{string.Join(", ", snippetsOccurencesOfSecondSubmission)}]");
 
 			var tokensMatchedInFirstSubmission = new DefaultDictionary<SnippetType, HashSet<int>>();
 			var tokensMatchedInSecondSubmission = new DefaultDictionary<SnippetType, HashSet<int>>();
@@ -45,6 +52,7 @@ namespace AntiPlagiarism.Web.CodeAnalyzing
 				var snippet = snippetOccurence.Snippet;
 				foreach (var otherOccurence in snippetsOccurencesOfSecondSubmission.Where(o => o.SnippetId == snippet.Id))
 				{
+					logger.Debug($"Нашёл совпадающий сниппет в обоих решениях: {snippet}");
 					for (var i = 0; i < snippet.TokensCount; i++)
 					{
 						tokensMatchedInFirstSubmission[snippet.SnippetType].Add(snippetOccurence.FirstTokenIndex + i);
@@ -52,6 +60,7 @@ namespace AntiPlagiarism.Web.CodeAnalyzing
 					}
 				}
 			}
+			logger.Debug("Закончил поиск совпадающих сниппетов");
 
 			var unionLength = 0;
 			var allSnippetTypes = GetAllSnippetTypes();
@@ -65,7 +74,8 @@ namespace AntiPlagiarism.Web.CodeAnalyzing
 			}
 			
 			var totalLength = firstSubmission.TokensCount + secondSubmission.TokensCount;
-			var weight = ((double)unionLength) / totalLength;
+			var weight = totalLength == 0 ? 0 : ((double)unionLength) / totalLength;
+			logger.Information($"Совпавших токенов {unionLength}, всего токенов {totalLength}, итоговый коэфициент {weight}");
 			
 			/* Normalize weight */
 			weight /= allSnippetTypes.Count;
@@ -81,7 +91,7 @@ namespace AntiPlagiarism.Web.CodeAnalyzing
 			var maxSnippetsCount = configuration.PlagiarismDetector.CountOfColdestSnippetsUsedToSearch;
 			var snippetsOccurences = await snippetsRepo.GetSnippetsOccurencesForSubmissionAsync(submission, maxSnippetsCount);
 			var snippetsStatistics = await snippetsRepo.GetSnippetsStatisticsAsync(submission.ClientId, submission.TaskId, snippetsOccurences.Select(o => o.SnippetId));
-			var authorsCount = await submissionsRepo.GetAuthorsCountAsync(submission.TaskId);
+			var authorsCount = await submissionsRepo.GetAuthorsCountAsync(submission.ClientId, submission.TaskId);
 			var matchedSnippets = new DefaultDictionary<int, List<MatchedSnippet>>();
 			foreach (var snippetOccurence in snippetsOccurences)
 			{

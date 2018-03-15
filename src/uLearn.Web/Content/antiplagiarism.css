@@ -1,0 +1,64 @@
+/* Antiplagiarism status */
+
+.antiplagiarism-status {
+    background-color: #ececec;
+    padding: 11px 18px;
+    color: #333;
+    font-size: 13pt;
+    margin: 0;
+}
+
+.antiplagiarism-status.found-none,
+.antiplagiarism-status.found-level0 {
+    background-color: #cafac1;
+}
+
+.antiplagiarism-status.found-faint,
+.antiplagiarism-status.found-level1 {
+    background-color: #faf4c1;
+}
+
+.antiplagiarism-status.found-strong,
+.antiplagiarism-status.found-level2 {
+    background-color: #fac1c1;    
+}
+
+/* Antiplagiarism page */
+
+.antiplagiarism__slide-title {
+    font-size: 16px;
+    margin-bottom: 5px;
+}
+
+.code-antiplagiarism + .CodeMirror {
+    font-size: 13px;
+}
+
+.antiplagiarism {
+    margin-top: 15px;
+}
+
+.antiplagiarism__author {
+    font-size: 18px;
+    margin: 5px 0;
+}
+
+.antiplagiarism__not-analyzed {
+    color: #ccc !important;   
+}
+
+.antiplagiarism__not-analyzed.CodeMirror-selectedtext {
+    color: #00000061 !important;
+}
+
+.antiplagiarism__matched-snippet {
+    /*background-color: #fdd5d5;*/
+}
+
+.antiplagiarism__plagiarism-token-tokensKindsOnly {
+    background-color: rgba(255, 255, 205, 0.7);
+}
+
+.antiplagiarism__plagiarism-token-tokensKindsAndValues {
+    background-color: rgba(255, 205, 205, 0.7);
+}

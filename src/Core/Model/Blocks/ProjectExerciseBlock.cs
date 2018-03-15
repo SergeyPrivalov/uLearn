@@ -6,6 +6,7 @@ using System.Linq;
 using System.Text;
 using System.Text.RegularExpressions;
 using System.Xml.Serialization;
+using log4net;
 using Microsoft.Build.Evaluation;
 using RunCsJob.Api;
 using uLearn.Helpers;
@@ -22,6 +23,8 @@ namespace uLearn.Model.Blocks
 		public const string BuildingTargetFrameworkVersion = "4.7";
 		public const string BuildingTargetNetCoreFrameworkVersion = "2.0";
 		public const string BuildingToolsVersion = "15.0";
+
+		private static readonly ILog log = LogManager.GetLogger(typeof(ProjectExerciseBlock)); 
 		
 		public static string SolutionFilepathToUserCodeFilepath(string solutionFilepath)
 		{
@@ -163,9 +166,14 @@ namespace uLearn.Model.Blocks
 			var excluded = (PathsToExcludeForChecker ?? new string[0])
 				.Concat(new[] { "bin/*", "obj/*" })
 				.ToList();
-
-			var toUpdate = GetAdditionalFiles(code, excluded);
-			return ExerciseFolder.ToZip(excluded, toUpdate);
+			
+			log.Info("Собираю zip-архив для проверки: получаю список дополнительных файлов");
+			var toUpdate = GetAdditionalFiles(code, excluded).ToList();
+			log.Info($"Собираю zip-архив для проверки: дополнительные файлы [{string.Join(", ", toUpdate.Select(c => c.Path))}]");
+			
+			var zipBytes = ExerciseFolder.ToZip(excluded, toUpdate);
+			log.Info($"Собираю zip-архив для проверки: zip-архив собран, {zipBytes.Length} байтов");
+			return zipBytes;
 		}
 
 		private IEnumerable<FileContent> GetAdditionalFiles(string code, List<string> excluded)

@@ -16,6 +16,8 @@
 	public class StatisticsAnalyzingConfiguration
 	{
 		public int CountOfLastAuthorsForCalculatingMeanAndDeviation { get; set; }
+		
+		public int RecalculateStatisticsAfterSubmisionsCount { get; set; }
 	}
 
 	public class PlagiarismDetectorConfiguration

@@ -21,8 +21,8 @@
   function Iter(cm, line, ch, range) {
     this.line = line; this.ch = ch;
     this.cm = cm; this.text = cm.getLine(line);
-    this.min = range ? range.from : cm.firstLine();
-    this.max = range ? range.to - 1 : cm.lastLine();
+    this.min = range ? Math.max(range.from, cm.firstLine()) : cm.firstLine();
+    this.max = range ? Math.min(range.to - 1, cm.lastLine()) : cm.lastLine();
   }
 
   function tagAt(iter, ch) {
@@ -138,11 +138,11 @@
     var iter = new Iter(cm, start.line, 0);
     for (;;) {
       var openTag = toNextTag(iter), end;
-      if (!openTag || iter.line != start.line || !(end = toTagEnd(iter))) return;
+      if (!openTag || !(end = toTagEnd(iter)) || iter.line != start.line) return;
       if (!openTag[1] && end != "selfClose") {
-        var start = Pos(iter.line, iter.ch);
-        var close = findMatchingClose(iter, openTag[2]);
-        return close && {from: start, to: close.from};
+        var startPos = Pos(iter.line, iter.ch);
+        var endPos = findMatchingClose(iter, openTag[2]);
+        return endPos && {from: startPos, to: endPos.from};
       }
     }
   });
@@ -151,8 +151,9 @@
     if (iter.text.indexOf(">") == -1 && iter.text.indexOf("<") == -1) return;
     var end = toTagEnd(iter), to = end && Pos(iter.line, iter.ch);
     var start = end && toTagStart(iter);
-    if (!end || end == "selfClose" || !start || cmp(iter, pos) > 0) return;
+    if (!end || !start || cmp(iter, pos) > 0) return;
     var here = {from: Pos(iter.line, iter.ch), to: to, tag: start[2]};
+    if (end == "selfClose") return {open: here, close: null, at: "open"};
 
     if (start[1]) { // closing tag
       return {open: findMatchingOpen(iter, start[2]), close: here, at: "close"};
@@ -162,10 +163,10 @@
     }
   };
 
-  CodeMirror.findEnclosingTag = function(cm, pos, range) {
+  CodeMirror.findEnclosingTag = function(cm, pos, range, tag) {
     var iter = new Iter(cm, pos.line, pos.ch, range);
     for (;;) {
-      var open = findMatchingOpen(iter);
+      var open = findMatchingOpen(iter, tag);
       if (!open) break;
       var forward = new Iter(cm, pos.line, pos.ch, range);
       var close = findMatchingClose(forward, open.tag);

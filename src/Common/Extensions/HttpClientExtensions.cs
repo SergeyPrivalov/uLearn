@@ -1,10 +1,11 @@
-﻿using System.Net.Http;
+﻿using System;
+using System.Net.Http;
 using System.Text;
 using System.Threading;
 using System.Threading.Tasks;
 using Newtonsoft.Json;
 
-namespace uLearn.Extensions
+namespace Ulearn.Common.Extensions
 {
 	public static class HttpClientExtensions
 	{
@@ -17,6 +18,11 @@ namespace uLearn.Extensions
 				CancellationToken.None);
 		}
 
+		public static Task<HttpResponseMessage> PostAsJsonAsync<T>(this HttpClient client, Uri uri, T payload)
+		{
+			return client.PostAsJsonAsync(uri.ToString(), payload);
+		}
+
 		public static async Task<HttpResponseMessage> PutAsJsonAsync<T>(this HttpClient client, string uri, T payload)
 		{
 			var serializedPayload = JsonConvert.SerializeObject(payload, Formatting.Indented);
@@ -25,11 +31,10 @@ namespace uLearn.Extensions
 				new StringContent(serializedPayload, Encoding.UTF8, "application/json"),
 				CancellationToken.None);
 		}
-
-		public static async Task<T> ReadAsAsync<T>(this HttpContent content)
+		
+		public static Task<HttpResponseMessage> PutAsJsonAsync<T>(this HttpClient client, Uri uri, T payload)
 		{
-			var s = await content.ReadAsStringAsync();
-			return JsonConvert.DeserializeObject<T>(s, JsonConfig.GetSettings());
+			return client.PutAsJsonAsync(uri.ToString(), payload);
 		}
 	}
 }

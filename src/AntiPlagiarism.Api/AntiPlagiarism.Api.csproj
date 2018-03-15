@@ -10,4 +10,15 @@
     <PackageReference Include="Newtonsoft.Json" Version="10.0.3" />
     <PackageReference Include="Serilog" Version="2.6.0" />
   </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\Common\Common.csproj">
+      <Project>{3CC038A1-6AA0-49B0-9485-DB9589626BC3}</Project>
+      <Name>Common</Name>
+    </ProjectReference>
+  </ItemGroup>
+  <PropertyGroup>
+    <!-- Temporary workaround for getting Microsoft.AspNetCore.Mvc.Code.dll in the output folder
+         (for Ulearn.Web, which is .NET Framework project, not .NET Core) -->
+    <CopyLocalLockFileAssemblies>true</CopyLocalLockFileAssemblies>
+  </PropertyGroup>
 </Project>

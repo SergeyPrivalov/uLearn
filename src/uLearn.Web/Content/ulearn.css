@@ -21,7 +21,11 @@
 .quiz-block-input {
 }
 
-.load-content {
+.quiz-block-input label {
+	font-weight: normal;
+}
+
+.quiz-block-input .load-content {
 }
 
 .visible-on-parent-hover {
@@ -776,7 +780,8 @@ li.li-success {
 	font-size: 10pt;
 }
 
-.comments .comment .comment__likes-count.is-liked .glyphicon {
+.comments .comment .comment__likes-count.is-liked .glyphicon,
+.comments .comment .comment__likes-count.is-liked .comment__likes-count__counter {
 	color: #c00;
 }
 
@@ -940,11 +945,11 @@ li.li-success {
 
 
 .comments_policy__message {
-	margin-top: 15px;
-	background-color: rgba(255, 0, 0, 0.13);
-	padding: 7px 12px;
-	border-radius: 5px;
-	color: #500F0F;
+	margin-top: 15px;	
+}
+
+.comments_policy__message.gray {
+	color: #888;
 }
 
 .comments__rules {
@@ -1914,7 +1919,7 @@ h1 .copy-group-link {
 	margin-bottom: 8px;
 }
 
-.exercise__submissions-panel .inline-select {
+.exercise__submissions-panel .inline-select.with-buttons {
 	margin: 0 10px;
 }
 

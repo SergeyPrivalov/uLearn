@@ -1,0 +1,20 @@
+{
+  "name": "ulearn",
+  "version": "0.1.0",
+  "private": true,
+  "dependencies": {
+    "@skbkontur/react-ui": "^0.11.0",
+    "react": "^16.2.0",
+    "react-addons-css-transition-group": "^15.6.2",
+    "react-bootstrap": "^0.32.1",
+    "react-dom": "^16.2.0",
+    "react-router-dom": "^4.2.2",
+    "react-scripts": "1.1.0"
+  },
+  "scripts": {
+    "start": "react-scripts start",
+    "build": "react-scripts build",
+    "test": "react-scripts test --env=jsdom",
+    "eject": "react-scripts eject"
+  }
+}

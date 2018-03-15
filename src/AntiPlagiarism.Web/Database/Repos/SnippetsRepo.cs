@@ -6,6 +6,7 @@ using System.Threading.Tasks;
 using AntiPlagiarism.Api.Models;
 using AntiPlagiarism.Web.Database.Models;
 using Microsoft.EntityFrameworkCore;
+using Serilog;
 
 namespace AntiPlagiarism.Web.Database.Repos
 {
@@ -18,15 +19,18 @@ namespace AntiPlagiarism.Web.Database.Repos
 		Task<Dictionary<int, SnippetStatistics>> GetSnippetsStatisticsAsync(int clientId, Guid taskId, IEnumerable<int> snippetsIds);
 		Task<List<SnippetOccurence>> GetSnippetsOccurencesAsync(int snippetId);
 		Task<List<SnippetOccurence>> GetSnippetsOccurencesAsync(int snippetId, Expression<Func<SnippetOccurence, bool>> filterFunction);
+		Task RemoveSnippetsOccurencesForTaskAsync(Guid taskId);
 	}
 
 	public class SnippetsRepo : ISnippetsRepo
 	{
 		private readonly AntiPlagiarismDb db;
+		private readonly ILogger logger;
 
-		public SnippetsRepo(AntiPlagiarismDb db)
+		public SnippetsRepo(AntiPlagiarismDb db, ILogger logger)
 		{
 			this.db = db;
+			this.logger = logger;
 		}
 
 		public async Task<Snippet> AddSnippetAsync(int tokensCount, SnippetType type, int hash)
@@ -116,17 +120,18 @@ namespace AntiPlagiarism.Web.Database.Repos
 
 			return snippet;
 		}
-
-		public Task<List<SnippetOccurence>> GetSnippetsOccurencesForSubmissionAsync(Submission submission, int maxCount)
+		
+		public async Task<List<SnippetOccurence>> GetSnippetsOccurencesForSubmissionAsync(Submission submission, int maxCount)
 		{
 			var selectedSnippetsStatistics = db.SnippetsStatistics.Where(s => s.TaskId == submission.TaskId && s.ClientId == submission.ClientId);
-			return db.SnippetsOccurences.Include(o => o.Snippet)
-				.Join(selectedSnippetsStatistics, o => o.SnippetId, s => s.SnippetId, (occurence, statistics) => Tuple.Create(occurence, statistics))
-				.Where(o => o.Item1.SubmissionId == submission.Id)
-				.OrderBy(o => o.Item2.AuthorsCount)
+			return (await db.SnippetsOccurences.Include(o => o.Snippet)
+				.Join(selectedSnippetsStatistics, o => o.SnippetId, s => s.SnippetId, (occurence, statistics) => new { occurence, statistics })
+				.Where(o => o.occurence.SubmissionId == submission.Id)
+				.OrderBy(o => o.statistics.AuthorsCount)
 				.Take(maxCount)
-				.Select(o => o.Item1)
-				.ToListAsync();
+				.ToListAsync())
+				.Select(o => o.occurence)
+				.ToList();
 		}
 
 		public Task<Dictionary<int, SnippetStatistics>> GetSnippetsStatisticsAsync(int clientId, Guid taskId, IEnumerable<int> snippetsIds)
@@ -144,6 +149,13 @@ namespace AntiPlagiarism.Web.Database.Repos
 		public Task<List<SnippetOccurence>> GetSnippetsOccurencesAsync(int snippetId, Expression<Func<SnippetOccurence, bool>> filterFunction)
 		{
 			return db.SnippetsOccurences.Include(o => o.Submission).Where(o => o.SnippetId == snippetId).Where(filterFunction).ToListAsync();
+		}
+
+		public async Task RemoveSnippetsOccurencesForTaskAsync(Guid taskId)
+		{
+			db.SnippetsOccurences.RemoveRange(
+				await db.SnippetsOccurences.Include(o => o.Submission).Where(o => o.Submission.TaskId == taskId).ToListAsync()
+			);
 		}
 
 		public async Task<List<Snippet>> GetSnippetsForSubmission(Submission submission, int maxCount)

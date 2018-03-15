@@ -22,7 +22,7 @@ CodeMirror.defineMode("octave", function() {
   var doubleDelimiters = new RegExp("^((!=)|(\\+=)|(\\-=)|(\\*=)|(/=)|(&=)|(\\|=)|(\\^=))");
   var tripleDelimiters = new RegExp("^((>>=)|(<<=))");
   var expressionEnd = new RegExp("^[\\]\\)]");
-  var identifiers = new RegExp("^[_A-Za-z][_A-Za-z0-9]*");
+  var identifiers = new RegExp("^[_A-Za-z\xa1-\uffff][_A-Za-z0-9\xa1-\uffff]*");
 
   var builtins = wordRegexp([
     'error', 'eval', 'function', 'abs', 'acos', 'atan', 'asin', 'cos',
@@ -90,8 +90,8 @@ CodeMirror.defineMode("octave", function() {
     if (stream.match(wordRegexp(['nan','NaN','inf','Inf']))) { return 'number'; };
 
     // Handle Strings
-    if (stream.match(/^"([^"]|(""))*"/)) { return 'string'; } ;
-    if (stream.match(/^'([^']|(''))*'/)) { return 'string'; } ;
+    var m = stream.match(/^"(?:[^"]|"")*("|$)/) || stream.match(/^'(?:[^']|'')*('|$)/)
+    if (m) { return m[1] ? 'string' : "string error"; }
 
     // Handle words
     if (stream.match(keywords)) { return 'keyword'; } ;
@@ -126,7 +126,11 @@ CodeMirror.defineMode("octave", function() {
         state.tokenize = tokenTranspose;
       }
       return style;
-    }
+    },
+
+    lineComment: '%',
+
+    fold: 'indent'
   };
 });
 

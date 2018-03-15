@@ -1,0 +1,105 @@
+﻿@using Database.Extensions
+@using Database.Models
+@using uLearn.Web.Extensions
+@using uLearn.Web.Views.Shared
+@using Ulearn.Common.Extensions
+@model uLearn.Web.Controllers.AntiPlagiarismDetailsModel
+
+@{
+	ViewBag.Title = "Проверка на списывание";
+
+	var submission = Model.Submissions[Model.SubmissionId];
+	var submissionsByAntiPlagiarismIds = Model.Submissions.Values
+		.Where(s => s.AntiPlagiarismSubmissionId != null)
+		.ToDictionary(s => s.AntiPlagiarismSubmissionId);
+}
+
+<div class="container">
+    @{
+	   
+	    <div class="row">
+            <div class="col-xs-6">
+                <h3>
+                    Исходное решение
+                </h3>
+
+                @{
+	                var submissionWeights = Model.AntiPlagiarismResult.ResearchedSubmissions.ToDictionary(
+		                s => submissionsByAntiPlagiarismIds[s.SubmissionInfo.Id].Id,
+		                s => s.Plagiarisms.Max(p => p.Weight)
+		                );
+                }
+                <div class="antiplagiarism__submissions-panel">
+                    <div class="antiplagiarism__slide-title">
+                        @Model.Course.Title,
+                        @Html.RouteLink(Model.Slide.Title, "Course.SlideById", new { courseId = Model.Course.Id, slideId = Model.Slide.Url})
+                    </div>
+                    @Html.Action("SubmissionsPanel", new { submissionId = submission.Id, submissionWeights })
+                </div>
+            </div>
+            <div class="col-xs-6">
+                <h3>
+                    Похожие решения
+                </h3>
+            </div>
+        </div>
+        
+	    var researchedSubmission = Model.AntiPlagiarismResult.ResearchedSubmissions.FirstOrDefault(s => s.SubmissionInfo.Id == submission.AntiPlagiarismSubmissionId);
+	    if (researchedSubmission != null && researchedSubmission.Plagiarisms.Count > 0)
+	    {
+		    foreach (var plagiarism in researchedSubmission.Plagiarisms.OrderByDescending(p => p.Weight))
+		    {
+			    if (!submissionsByAntiPlagiarismIds.ContainsKey(plagiarism.SubmissionInfo.Id))
+			    {
+				    continue;
+			    }
+			    var plagiarismSubmission = submissionsByAntiPlagiarismIds[plagiarism.SubmissionInfo.Id];
+			    <div class="antiplagiarism row">
+                    <div class="col-xs-6">
+                        <div class="antiplagiarism__author">
+                            @UserAvatar.SmallAvatar(submission.User)
+                            @if (User.HasSystemAccess(SystemAccessType.ViewAllProfiles) || User.IsSystemAdministrator())
+                            {
+	                            @Html.ActionLink(submission.User.VisibleName, "Profile", "Account", new { userId = submission.UserId }, new { title = submission.User.UserName })<text>,</text>
+                            }
+                            else
+                            {
+	                            <span title="@submission.User.UserName">@submission.User.VisibleName</span><text>,</text>
+                            }
+                            <span title="@submission.Timestamp.ToPrettyString()">@submission.Timestamp.ToAgoPrettyString()</span>
+                        </div>
+                        <textarea class="code code-antiplagiarism" data-lang="cs" data-submission-id="@submission.Id-@plagiarismSubmission.Id">@submission.SolutionCode.Text</textarea>
+                    </div>
+                    <div class="col-xs-6">
+                        <div class="antiplagiarism__author">
+                            @UserAvatar.SmallAvatar(plagiarismSubmission.User)
+                            @if (User.HasSystemAccess(SystemAccessType.ViewAllProfiles) || User.IsSystemAdministrator())
+                            {
+	                            @Html.ActionLink(plagiarismSubmission.User.VisibleName, "Profile", "Account", new { userId = plagiarismSubmission.UserId }, new { title = plagiarismSubmission.User.UserName })<text>,</text>
+                            }
+                            else
+                            {
+	                            <span title="@plagiarismSubmission.User.UserName">@plagiarismSubmission.User.VisibleName</span><text>,</text>
+                            }
+                            <span title="@plagiarismSubmission.Timestamp.ToPrettyString()">@plagiarismSubmission.Timestamp.ToAgoPrettyString()</span>
+                            <div class="pull-right" title="Процент похожести. Чем больше, тем более подозрительна эта пара">
+                                @((int) (plagiarism.Weight * 100))%
+                            </div>
+                        </div>
+                        
+                        <textarea class="code code-antiplagiarism" data-lang="cs" data-submission-id="@plagiarismSubmission.Id">@plagiarismSubmission.SolutionCode.Text</textarea>
+                    </div>
+                    <div class="hidden antiplagiarism__data" data-original-submission-id="@submission.Id-@plagiarismSubmission.Id" data-plagiarism-submission-id="@plagiarismSubmission.Id">
+                        @(new { analyzed_code_units = researchedSubmission.AnalyzedCodeUnits, tokens_positions = researchedSubmission.TokensPositions, plagiarism = plagiarism }.JsonSerialize())
+                    </div>
+                </div>
+		    }	    
+	    }
+	    else
+	    {
+		    <div class="text-muted">Мы не нашли ничего похожего на это решение. Вероятно, этот код написан самостоятельно.</div>
+		    <textarea class="code code-sample" data-lang="cs">@submission.SolutionCode.Text</textarea>
+	    }
+    }
+    
+</div>

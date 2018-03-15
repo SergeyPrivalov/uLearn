@@ -221,7 +221,7 @@
       <SubType>Designer</SubType>
     </None>
     <EmbeddedResource Include=".\WellKnownLibs\*.dll">
-      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </EmbeddedResource>
     <AdditionalFiles Include=".\WellKnownLibs\README.md" />
     <None Include="packages.config" />

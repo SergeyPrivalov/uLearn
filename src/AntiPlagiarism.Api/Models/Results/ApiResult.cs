@@ -1,6 +1,7 @@
 ﻿using System.Runtime.Serialization;
 using Newtonsoft.Json;
 using Newtonsoft.Json.Converters;
+using Ulearn.Common.Extensions;
 
 namespace AntiPlagiarism.Api.Models.Results
 {
@@ -10,5 +11,10 @@ namespace AntiPlagiarism.Api.Models.Results
 		[DataMember(Name = "status")]
 		[JsonConverter(typeof(StringEnumConverter), true)]
 		public ApiResultStatus Status { get; set; }
+
+		public override string ToString()
+		{
+			return this.JsonSerialize();
+		}
 	}
 }

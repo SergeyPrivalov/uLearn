@@ -1,0 +1,21 @@
+<?xml version="1.0"?>
+<package >
+  <metadata>
+    <id>Kontur.Ulearn.GiftsGranter</id>
+    <version>$version$</version>
+    <title>$title$</title>
+    <authors>SKB Kontur</authors>
+    <owners>SKB Kontur</owners>
+    <licenseUrl>https://ulearn.me/Home/Terms</licenseUrl>
+    <projectUrl>https://ulearn.me</projectUrl>
+    <requireLicenseAcceptance>false</requireLicenseAcceptance>
+    <description>Staff gifts service for ulearn mooc platform. Uses API of staff.skbkontur.ru</description>
+    <releaseNotes></releaseNotes>
+    <copyright>Copyright 2014–2018 SKB Kontur</copyright>
+    <tags>ulearn education mooc staff gifts</tags>
+  </metadata>
+  <files>
+    <file src="bin\*\*.config"/>
+    <file src="deploy\*" target="deploy\"/>
+  </files>
+</package>

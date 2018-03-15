@@ -282,6 +282,7 @@ namespace Database
 			AddIndex<UserExerciseSubmission>(modelBuilder, c => new { c.CourseId, c.SlideId, c.Timestamp });
 			AddIndex<UserExerciseSubmission>(modelBuilder, c => new { c.CourseId, c.AutomaticCheckingIsRightAnswer });
 			AddIndex<UserExerciseSubmission>(modelBuilder, c => new { c.CourseId, c.SlideId, c.AutomaticCheckingIsRightAnswer });
+			AddIndex<UserExerciseSubmission>(modelBuilder, c => new { c.AntiPlagiarismSubmissionId });
 
 			AddIndex<UserQuiz>(modelBuilder, c => new { c.SlideId, c.Timestamp });
 			AddIndex<UserQuiz>(modelBuilder, c => new { c.UserId, c.SlideId, c.isDropped, c.QuizId, c.ItemId });

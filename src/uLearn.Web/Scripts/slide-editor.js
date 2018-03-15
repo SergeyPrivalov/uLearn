@@ -73,10 +73,11 @@ function initCodeEditor($parent) {
 	}
 
 	codeMirrorClass($parent.find('.code-exercise'), true, false, false);
-	codeMirrorClass($parent.find('.code-sample'), false, false, false);
+	codeMirrorClass($parent.find('.code-sample'), false, false, false);    
 	codeMirrorClass($parent.find('.code-guest'), false, true, false);
 	codeMirrorClass($parent.find('.code-review'), false, false, true);
 	codeMirrorClass($parent.find('.code-reviewed'), false, false, false);
+    codeMirrorClass($parent.find('.code-antiplagiarism'), false, false, false);
 
 	if ($exerciseCodeBlock) {
 		var exerciseCodeEditor = $exerciseCodeBlock.codeMirrorEditor;
@@ -143,6 +144,7 @@ function initCodeEditor($parent) {
 				//autoCloseBrackets: true, // workaround: autoCloseBracket breakes indentation after for|while|...
 				styleActiveLine: editable,
 				matchBrackets: true,
+                styleSelectedText: true,
 			});
 
 			if (review) {

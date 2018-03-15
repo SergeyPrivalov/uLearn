@@ -164,6 +164,10 @@ namespace uLearn.Web.Controllers
 				await NotifyAboutNewComment(comment);
 			var canReply = CanAddCommentHere(User, courseId, isReply: true);
 
+			var userId = User.Identity.GetUserId();
+			var canViewAuthorSubmissions = coursesRepo.HasCourseAccess(userId, courseId, CourseAccessType.ViewAllStudentsSubmissions) || User.HasAccessFor(courseId, CourseRole.CourseAdmin);
+			var canViewProfiles = systemAccessesRepo.HasSystemAccess(userId, SystemAccessType.ViewAllProfiles) || User.IsSystemAdministrator();
+
 			return PartialView("_Comment", new CommentViewModel
 			{
 				Comment = comment,
@@ -175,6 +179,8 @@ namespace uLearn.Web.Controllers
 				CanModerateComment = User.HasAccessFor(courseId, CourseRole.Instructor),
 				CanReply = canReply,
 				CurrentUser = userManager.FindById(User.Identity.GetUserId()),
+				CanViewAuthorProfile = canViewProfiles,
+				CanViewAuthorSubmissions = canViewAuthorSubmissions,
 			});
 		}
 

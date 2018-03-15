@@ -163,6 +163,9 @@
       <HintPath>..\packages\Microsoft.CodeAnalysis.CSharp.2.6.1\lib\netstandard1.3\Microsoft.CodeAnalysis.CSharp.dll</HintPath>
     </Reference>
     <Reference Include="Microsoft.CSharp" />
+    <Reference Include="Microsoft.DotNet.PlatformAbstractions, Version=2.0.3.0, Culture=neutral, PublicKeyToken=adb9793829ddae60">
+      <HintPath>..\packages\Microsoft.DotNet.PlatformAbstractions.2.0.3\lib\net45\Microsoft.DotNet.PlatformAbstractions.dll</HintPath>
+    </Reference>
     <Reference Include="Microsoft.Extensions.Configuration, Version=2.0.0.0, Culture=neutral, PublicKeyToken=adb9793829ddae60">
       <HintPath>..\packages\Microsoft.Extensions.Configuration.2.0.0\lib\netstandard2.0\Microsoft.Extensions.Configuration.dll</HintPath>
     </Reference>
@@ -178,6 +181,12 @@
     <Reference Include="Microsoft.Extensions.Configuration.Json, Version=2.0.0.0, Culture=neutral, PublicKeyToken=adb9793829ddae60">
       <HintPath>..\packages\Microsoft.Extensions.Configuration.Json.2.0.0\lib\netstandard2.0\Microsoft.Extensions.Configuration.Json.dll</HintPath>
     </Reference>
+    <Reference Include="Microsoft.Extensions.DependencyInjection.Abstractions, Version=2.0.0.0, Culture=neutral, PublicKeyToken=adb9793829ddae60">
+      <HintPath>..\packages\Microsoft.Extensions.DependencyInjection.Abstractions.2.0.0\lib\netstandard2.0\Microsoft.Extensions.DependencyInjection.Abstractions.dll</HintPath>
+    </Reference>
+    <Reference Include="Microsoft.Extensions.DependencyModel, Version=2.0.3.0, Culture=neutral, PublicKeyToken=adb9793829ddae60">
+      <HintPath>..\packages\Microsoft.Extensions.DependencyModel.2.0.3\lib\net451\Microsoft.Extensions.DependencyModel.dll</HintPath>
+    </Reference>
     <Reference Include="Microsoft.Extensions.FileProviders.Abstractions, Version=2.0.0.0, Culture=neutral, PublicKeyToken=adb9793829ddae60">
       <HintPath>..\packages\Microsoft.Extensions.FileProviders.Abstractions.2.0.0\lib\netstandard2.0\Microsoft.Extensions.FileProviders.Abstractions.dll</HintPath>
     </Reference>
@@ -187,11 +196,26 @@
     <Reference Include="Microsoft.Extensions.FileSystemGlobbing, Version=2.0.0.0, Culture=neutral, PublicKeyToken=adb9793829ddae60">
       <HintPath>..\packages\Microsoft.Extensions.FileSystemGlobbing.2.0.0\lib\netstandard2.0\Microsoft.Extensions.FileSystemGlobbing.dll</HintPath>
     </Reference>
+    <Reference Include="Microsoft.Extensions.Hosting.Abstractions, Version=2.0.1.0, Culture=neutral, PublicKeyToken=adb9793829ddae60">
+      <HintPath>..\packages\Microsoft.Extensions.Hosting.Abstractions.2.0.1\lib\netstandard2.0\Microsoft.Extensions.Hosting.Abstractions.dll</HintPath>
+    </Reference>
+    <Reference Include="Microsoft.Extensions.Logging.Abstractions, Version=2.0.0.0, Culture=neutral, PublicKeyToken=adb9793829ddae60">
+      <HintPath>..\packages\Microsoft.Extensions.Logging.Abstractions.2.0.0\lib\netstandard2.0\Microsoft.Extensions.Logging.Abstractions.dll</HintPath>
+    </Reference>
+    <Reference Include="Microsoft.Extensions.ObjectPool, Version=2.0.0.0, Culture=neutral, PublicKeyToken=adb9793829ddae60">
+      <HintPath>..\packages\Microsoft.Extensions.ObjectPool.2.0.0\lib\netstandard2.0\Microsoft.Extensions.ObjectPool.dll</HintPath>
+    </Reference>
+    <Reference Include="Microsoft.Extensions.Options, Version=2.0.0.0, Culture=neutral, PublicKeyToken=adb9793829ddae60">
+      <HintPath>..\packages\Microsoft.Extensions.Options.2.0.0\lib\netstandard2.0\Microsoft.Extensions.Options.dll</HintPath>
+    </Reference>
     <Reference Include="Microsoft.Extensions.Primitives, Version=2.0.0.0, Culture=neutral, PublicKeyToken=adb9793829ddae60">
       <HintPath>..\packages\Microsoft.Extensions.Primitives.2.0.0\lib\netstandard2.0\Microsoft.Extensions.Primitives.dll</HintPath>
     </Reference>
     <Reference Include="Microsoft.IdentityModel.Protocol.Extensions, Version=1.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
       <HintPath>..\packages\Microsoft.IdentityModel.Protocol.Extensions.1.0.0\lib\net45\Microsoft.IdentityModel.Protocol.Extensions.dll</HintPath>
+    </Reference>
+    <Reference Include="Microsoft.Net.Http.Headers, Version=2.0.1.0, Culture=neutral, PublicKeyToken=adb9793829ddae60">
+      <HintPath>..\packages\Microsoft.Net.Http.Headers.2.0.1\lib\netstandard2.0\Microsoft.Net.Http.Headers.dll</HintPath>
     </Reference>
     <Reference Include="Microsoft.Owin, Version=3.1.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
       <HintPath>..\packages\Microsoft.Owin.3.1.0\lib\net45\Microsoft.Owin.dll</HintPath>
@@ -245,12 +269,21 @@
     <Reference Include="RestSharp, Version=105.0.1.0, Culture=neutral, processorArchitecture=MSIL">
       <HintPath>..\packages\RestSharp.105.0.1\lib\net4\RestSharp.dll</HintPath>
     </Reference>
+    <Reference Include="Serilog, Version=2.0.0.0, Culture=neutral, PublicKeyToken=24c2f752a8e58a10">
+      <HintPath>..\packages\Serilog.2.6.0\lib\net46\Serilog.dll</HintPath>
+    </Reference>
+    <Reference Include="Serilog.Sinks.Log4Net, Version=1.5.0.0, Culture=neutral, PublicKeyToken=24c2f752a8e58a10">
+      <HintPath>..\packages\Serilog.Sinks.Log4Net.1.5.16\lib\net45\Serilog.Sinks.Log4Net.dll</HintPath>
+    </Reference>
     <Reference Include="SkbKontur.Passport.Client">
       <HintPath>..\packages\SkbKontur.Passport.Client.2.0.3\lib\net45\SkbKontur.Passport.Client.dll</HintPath>
     </Reference>
     <Reference Include="System" />
     <Reference Include="System.AppContext, Version=4.1.1.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a, processorArchitecture=MSIL">
       <HintPath>..\packages\System.AppContext.4.3.0\lib\net463\System.AppContext.dll</HintPath>
+    </Reference>
+    <Reference Include="System.Buffers, Version=4.0.2.0, Culture=neutral, PublicKeyToken=cc7b13ffcd2ddd51">
+      <HintPath>..\packages\System.Buffers.4.4.0\lib\netstandard2.0\System.Buffers.dll</HintPath>
     </Reference>
     <Reference Include="System.Collections.Immutable, Version=1.2.2.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a">
       <HintPath>..\packages\System.Collections.Immutable.1.4.0\lib\netstandard2.0\System.Collections.Immutable.dll</HintPath>
@@ -267,6 +300,9 @@
     </Reference>
     <Reference Include="System.Data" />
     <Reference Include="System.Data.DataSetExtensions" />
+    <Reference Include="System.Diagnostics.DiagnosticSource, Version=4.0.2.1, Culture=neutral, PublicKeyToken=cc7b13ffcd2ddd51">
+      <HintPath>..\packages\System.Diagnostics.DiagnosticSource.4.4.1\lib\net46\System.Diagnostics.DiagnosticSource.dll</HintPath>
+    </Reference>
     <Reference Include="System.Diagnostics.FileVersionInfo, Version=4.0.1.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a, processorArchitecture=MSIL">
       <HintPath>..\packages\System.Diagnostics.FileVersionInfo.4.3.0\lib\net46\System.Diagnostics.FileVersionInfo.dll</HintPath>
     </Reference>
@@ -445,11 +481,14 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="AntiPlagiarismUsage\AntiPlagiarismAdditionalInfo.cs" />
     <Compile Include="App_Start\ErrorLogModule.cs" />
     <Compile Include="App_Start\GraphiteMetricsPipeStart.cs" />
     <Compile Include="App_Start\RazorGeneratorMvcStart.cs" />
     <Compile Include="App_Start\WebApiConfig.cs" />
     <Compile Include="codemirror\CsCompleterGenerator.cs" />
+    <Compile Include="Controllers\AntiPlagiarismController.cs" />
+    <Compile Include="Controllers\BaseController.cs" />
     <Compile Include="Controllers\BaseExerciseController.cs" />
     <Compile Include="Controllers\CertificatesController.cs" />
     <Compile Include="Controllers\FeedController.cs" />
@@ -865,6 +904,7 @@
     <Content Include="codemirror\theme\vibrant-ink.css" />
     <Content Include="codemirror\theme\xq-dark.css" />
     <Content Include="codemirror\theme\xq-light.css" />
+    <Content Include="Content\antiplagiarism.css" />
     <Content Include="Content\awesome-bootstrap-checkbox.css" />
     <Content Include="Content\bootstrap-select.min.css" />
     <Content Include="Content\bootstrap-theme.css" />
@@ -895,6 +935,25 @@
     <Content Include="flexslider\jquery.flexslider-min.js" />
     <Content Include="flexslider\jquery.flexslider.js" />
     <Content Include="fonts\glyphicons-halflings-regular.svg" />
+    <Content Include="frontend\package.json" />
+    <Content Include="frontend\public\favicon.ico" />
+    <Content Include="frontend\public\index.html" />
+    <Content Include="frontend\public\manifest.json" />
+    <Content Include="frontend\README.md" />
+    <Content Include="frontend\src\App.css" />
+    <Content Include="frontend\src\App.js" />
+    <Content Include="frontend\src\App.test.js" />
+    <Content Include="frontend\src\components\common\Header.css" />
+    <Content Include="frontend\src\components\common\Header.js" />
+    <Content Include="frontend\src\components\instructor\exercise\PlagiarismViewer.js" />
+    <Content Include="frontend\src\index.css" />
+    <Content Include="frontend\src\index.js" />
+    <Content Include="frontend\src\logo.svg" />
+    <Content Include="frontend\src\pages\course\index.js" />
+    <Content Include="frontend\src\pages\course\instructor\PlagiarismsPage.js" />
+    <Content Include="frontend\src\pages\home\index.js" />
+    <Content Include="frontend\src\pages\home\IndexPage.js" />
+    <Content Include="frontend\src\registerServiceWorker.js" />
     <Content Include="Global.asax" />
     <Content Include="Content\Site.css" />
     <Content Include="Jsdifflib\jsdifflib.css" />
@@ -903,6 +962,7 @@
     <Content Include="Scripts\activate-clipboard.js" />
     <Content Include="Scripts\analytics-highcharts.js" />
     <Content Include="Scripts\analytics.js" />
+    <Content Include="Scripts\antiplagiarism.js" />
     <Content Include="Scripts\bootstrap-select.additional.js" />
     <Content Include="Scripts\bootstrap-select.min.js" />
     <Content Include="Scripts\bootstrap.file-input.js" />
@@ -1106,6 +1166,8 @@
     <Content Include="tablesorter-master\README.md" />
     <Content Include="tablesorter-master\tablesorter.jquery.json" />
     <Content Include="tablesorter-master\test.html" />
+    <Content Include="Views\AntiPlagiarism\Details.cshtml" />
+    <Content Include="Views\Shared\_Retargeting.cshtml" />
     <Content Include="Views\Shared\_ReturnHijack.cshtml" />
     <Content Include="Web.config" />
     <Content Include="Web.Debug.config">
@@ -1276,6 +1338,10 @@
     <EmbeddedResource Include="Microsoft.Owin.Security.VK\Resources.resx" />
   </ItemGroup>
   <ItemGroup>
+    <ProjectReference Include="..\AntiPlagiarism.Api\AntiPlagiarism.Api.csproj">
+      <Project>{a019580a-4cf2-475e-bd57-7f57f411b64f}</Project>
+      <Name>AntiPlagiarism.Api</Name>
+    </ProjectReference>
     <ProjectReference Include="..\Common\Common.csproj">
       <Project>{3CC038A1-6AA0-49B0-9485-DB9589626BC3}</Project>
       <Name>Common</Name>

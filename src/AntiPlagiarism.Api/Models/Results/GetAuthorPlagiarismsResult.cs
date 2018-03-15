@@ -29,5 +29,8 @@ namespace AntiPlagiarism.Api.Models.Results
 		
 		[DataMember(Name = "tokens_positions")]
 		public List<TokenPosition> TokensPositions { get; set; }
+		
+		[DataMember(Name = "analyzed_code_units")]
+		public List<AnalyzedCodeUnit> AnalyzedCodeUnits { get; set; }
 	}
 }

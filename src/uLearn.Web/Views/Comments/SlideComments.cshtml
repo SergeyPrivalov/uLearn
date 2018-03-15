@@ -69,13 +69,13 @@
 		}
 		else if (Model.CommentsPolicy.IsCommentsEnabled)
 		{
-			<div class="comments_policy__message">
-				Чтобы оставить комментарий, @Html.ActionLink("войдите", "Login", "Account", new { returnUrl = Request.RawUrl }, new { })
+			<div class="comments_policy__message gray">
+                @Html.ActionLink("Войдите", "Login", "Account", new { returnUrl = Request.RawUrl }, new { }), чтобы оставить комментарий 
 			</div>
 		}
 		else
 		{
-			<div class="comments_policy__message">
+			<div class="comments_policy__message gray">
 				Только преподаватели могут оставлять комментарии
 			</div>
 		}
@@ -85,15 +85,12 @@ else
 {
 	if (Model.CommentsPolicy.IsCommentsEnabled)
 	{
-		<div class="comments_policy__message">
-			Чтобы оставить комментарий, @Html.ActionLink("войдите", "Login", "Account", new { returnUrl = Request.RawUrl }, new { })
-		</div>
-	}
-	else
-	{
-		<div class="comments_policy__message">
-			Комментарии отключены
-		</div>
+		<div class="comments">
+            <h3>Комментарии</h3>
+            <div class="comments_policy__message">
+                Комментариев пока нет. @Html.ActionLink("Войдите", "Login", "Account", new { returnUrl = Request.RawUrl }, new { }), чтобы написать свой.
+            </div>
+        </div>
 	}
 }
 

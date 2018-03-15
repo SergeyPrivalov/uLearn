@@ -14,4 +14,7 @@
     <copyright>Copyright 2018</copyright>
     <tags>ulearn education mooc plagiarism csharp</tags>
   </metadata>
+  <files>
+    <file src="deploy\*" target="deploy\"/>
+  </files>
 </package>

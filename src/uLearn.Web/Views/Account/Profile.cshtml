@@ -3,6 +3,7 @@
 @using uLearn.Web.Kontur.Passport
 @using uLearn.Web.Microsoft.Owin.Security.VK
 @using uLearn.Web.Views.Shared
+@using Ulearn.Common
 @model uLearn.Web.Controllers.ProfileModel
 
 @{
@@ -17,7 +18,7 @@
 			@UserAvatar.LargeAvatar(Model.User)
 		</div>
 		<div>
-			<div><b>@Model.User.UserName</b>, <a href="mailto:@Model.User.Email">@Model.User.Email</a><i>@(!Model.User.EmailConfirmed ? " (почта не подтверждена)" : "")</i></div>
+			<div>@Model.User.UserName, <a href="mailto:@Model.User.Email">@Model.User.Email</a><i>@(!Model.User.EmailConfirmed ? " (почта не подтверждена)" : "")</i></div>
 			@{
 				var vkLogin = Model.Logins.FirstOrDefault(l => l.LoginProvider == VkAuthenticationConstants.AuthenticationType);
 				if (vkLogin != null)
@@ -37,7 +38,7 @@
                         }
                         else
                         {
-	                        <text>@konturPassportLogin.ProviderKey</text>
+	                        <span class="text-muted small">@konturPassportLogin.ProviderKey</span>
                         }
                     </div>
 				}
@@ -46,13 +47,13 @@
 				{
 					<div>
 						<b>Телеграм:</b>
-						@if (!string.IsNullOrEmpty(Model.User.TelegramChatTitle))
+						@if (!string.IsNullOrEmpty(Model.User.TelegramChatTitle) && Model.User.TelegramChatTitle != "@")
 						{
-							<a href="https://t.me/@(Model.User.TelegramChatTitle.Substring(1))" target="_blank">@Model.User.TelegramChatTitle</a>
+							<a href="https://t.me/@(Model.User.TelegramChatTitle.Substring(1))" target="_blank" title="Откроется в новой вкладке">@Model.User.TelegramChatTitle</a>
 						}
 						else
 						{
-							@Model.User.TelegramChatId <i>(никнейм не&nbsp;указан)</i>
+							<span class="text-muted small">@Model.User.TelegramChatId (никнейм не&nbsp;указан)</span>
 						}
 					</div>
 				}
@@ -106,7 +107,8 @@
 			@foreach (var certificate in Model.Certificates)
 			{
 				<li>
-					@Html.RouteLink(Model.AllCourses[certificate.Template.CourseId].Title, "Certificate", new { certificateId = certificate.Id }),
+                    @Html.RouteLink(Model.AllCourses[certificate.Template.CourseId].Title, "Certificate", new { certificateId = certificate.Id }),
+                    выдал@(certificate.Instructor.Gender.ChooseEnding()) @certificate.Instructor.VisibleName
 					@certificate.Timestamp.ToAgoPrettyString()
 				</li>
 			}

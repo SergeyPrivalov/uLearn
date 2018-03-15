@@ -20,6 +20,9 @@ namespace uLearn.Model.Blocks
 			Validator = new ValidatorDescription();
 		}
 
+		[XmlAttribute("type")]
+		public ExerciseType ExerciseType { get; set; } = ExerciseType.CheckOutput;
+
 		[XmlElement("max-score")]
 		public int MaxScore { get; set; }
 
@@ -145,6 +148,15 @@ namespace uLearn.Model.Blocks
 			if (string.IsNullOrEmpty(ScoringGroup))
 				ScoringGroup = scoring.DefaultScoringGroupForExercise;
 		}
+	}
+
+	public enum ExerciseType
+	{
+		[XmlEnum("check-exit-code")]
+		CheckExitCode,
+		
+		[XmlEnum("check-output")]
+		CheckOutput
 	}
 
 	public class ValidatorDescription

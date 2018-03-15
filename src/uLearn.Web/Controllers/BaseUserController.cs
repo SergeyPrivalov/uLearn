@@ -13,7 +13,7 @@ using Ulearn.Common.Extensions;
 
 namespace uLearn.Web.Controllers
 {
-	public class BaseUserController : Controller
+	public class BaseUserController : BaseController
 	{
 		protected static readonly ILog log = LogManager.GetLogger(typeof(BaseUserController));
 

@@ -61,6 +61,9 @@ namespace Database.Models
 		public bool AutomaticCheckingIsRightAnswer { get; set; }
 
 		public virtual IList<ManualExerciseChecking> ManualCheckings { get; set; }
+		
+		[Index("IDX_UserExerciseSubmission_ByAntiPlagiarismSubmissionId")]
+		public int? AntiPlagiarismSubmissionId { get; set; }
 
 		public bool IsWebSubmission => string.Equals(CourseId, "web", StringComparison.OrdinalIgnoreCase) && SlideId == Guid.Empty;
 	}

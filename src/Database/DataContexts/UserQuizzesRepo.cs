@@ -79,7 +79,9 @@ namespace Database.DataContexts
 			foreach (var block in slide.Blocks.OfType<AbstractQuestionBlock>())
 			{
 				var ans = db.UserQuizzes
-					.Where(x => x.UserId == userId && x.SlideId == slide.Id && x.QuizId == block.Id && !x.isDropped).ToList();
+					.Where(x => x.UserId == userId && x.SlideId == slide.Id && x.QuizId == block.Id && !x.isDropped)
+					.OrderBy(x => x.Id)
+					.ToList();
 				answer[block.Id] = ans;
 			}
 			return answer;

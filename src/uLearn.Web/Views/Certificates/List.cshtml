@@ -1,4 +1,5 @@
 ﻿@using Microsoft.AspNet.Identity
+@using uLearn.Web.Extensions
 @using Ulearn.Common
 @using Ulearn.Common.Extensions
 
@@ -28,7 +29,7 @@
 		{
 			<div class="certificates-list__info">
 				@Model.User.VisibleName
-				<span>пока не&nbsp;получил(а) ни&nbsp;одного сертификата за&nbsp;прохождение курсов.</span>
+				<span>пока не&nbsp;получил@(Model.User.Gender.ChooseEnding()) ни&nbsp;одного сертификата за&nbsp;прохождение курсов.</span>
 			</div>
 		}
 	}
@@ -55,10 +56,12 @@
 				                   "Сертификат за курс «" + Model.CoursesTitles.GetOrDefault(certificate.Template.CourseId, "") + "»",
 				                   "Certificate",
 				                   new { certificateId = certificate.Id }
-				                   )</h3>
+				                   )
+        </h3>
 		<div>
-			<strong>@certificate.Timestamp.ToLongDateString()</strong>,
-			выдал@(certificate.Instructor.Gender.ChooseEnding()) @certificate.Instructor.VisibleName
+            @certificate.Instructor.VisibleName
+            выдал@(certificate.Instructor.Gender.ChooseEnding()) сертификат
+            <span class="text-muted" title="@certificate.Timestamp.ToPrettyString()">@certificate.Timestamp.ToLongDateString()</span>
 		</div>
 		certificateIndex++;
 	}

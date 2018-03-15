@@ -46,5 +46,8 @@ namespace Database.Models
 		/* Назначать людей преподавателями */
 		[Display(Name = "Назначать преподавателей")]
 		AddAndRemoveInstructors = 3,
+		
+		[Display(Name = "Фича: антиплагиат")]
+		FeatureAntiPlagiarism = 1001,
 	}
 }

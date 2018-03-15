@@ -17,6 +17,8 @@ namespace AntiPlagiarism.Web.Database
 			modelBuilder.Entity<Client>()
 				.HasIndex(c => c.Token)
 				.IsUnique();
+			modelBuilder.Entity<Client>()
+				.HasIndex(c => new { c.Token, c.IsEnabled });
 
 			modelBuilder.Entity<SnippetOccurence>()
 				.HasIndex(c => new { c.SubmissionId, c.FirstTokenIndex })

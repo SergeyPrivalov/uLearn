@@ -349,6 +349,7 @@ II.2.12 &lt;HandlesEvent /&gt;&#xD;
 	<s:Boolean x:Key="/Default/Environment/InjectedLayers/FileInjectedLayer/=6CA8EE9D0EDEFF43BD08343F22118B36/@KeyIndexDefined">True</s:Boolean>
 	<s:String x:Key="/Default/Environment/InjectedLayers/FileInjectedLayer/=6CA8EE9D0EDEFF43BD08343F22118B36/AbsolutePath/@EntryValue">C:\projects\diadoc\git\trunk\_Src\Diadoc.DotSettings</s:String>
 	<s:String x:Key="/Default/Environment/InjectedLayers/FileInjectedLayer/=6CA8EE9D0EDEFF43BD08343F22118B36/RelativePath/@EntryValue">..\Diadoc.DotSettings</s:String>
+	<s:Boolean x:Key="/Default/Environment/InjectedLayers/InjectedLayerCustomization/=File6CA8EE9D0EDEFF43BD08343F22118B36/IsOn/@EntryValue">False</s:Boolean>
 	<s:Boolean x:Key="/Default/Environment/InjectedLayers/InjectedLayerCustomization/=File_003A_003AC_003A_005Cdev_005Cdiadoc_005CDiadoc_002EDotSettings/@KeyIndexDefined">True</s:Boolean>
 	<s:Double x:Key="/Default/Environment/InjectedLayers/InjectedLayerCustomization/=File_003A_003AC_003A_005Cdev_005Cdiadoc_005CDiadoc_002EDotSettings/RelativePriority/@EntryValue">6</s:Double>
 	<s:Boolean x:Key="/Default/Environment/InjectedLayers/InjectedLayerCustomization/=File_003A_003AC_003A_005Cdiadoc_005CDiadoc_002EDotSettings/@KeyIndexDefined">True</s:Boolean>

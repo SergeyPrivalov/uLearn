@@ -16,5 +16,10 @@ namespace AntiPlagiarism.Web.Database.Models
 		public virtual Snippet Snippet { get; set; }
 		
 		public int FirstTokenIndex { get; set; }
+
+		public override string ToString()
+		{
+			return $"SnippetOccurence({Snippet}, SubmissionId={SubmissionId}, FirstTokenIndex={FirstTokenIndex})";
+		}
 	}
 }

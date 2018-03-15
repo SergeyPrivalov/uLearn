@@ -4,13 +4,18 @@ using System.Linq;
 using System.Net;
 using System.Runtime.Serialization;
 using System.Threading.Tasks;
+using System.Web.Configuration;
 using System.Web.Http;
 using System.Web.Mvc;
+using AntiPlagiarism.Api;
 using Database.DataContexts;
 using Database.Extensions;
 using Database.Models;
 using Elmah;
+using JetBrains.Annotations;
 using Microsoft.AspNet.Identity;
+using Serilog;
+using Serilog.Events;
 using uLearn.Helpers;
 using uLearn.Model.Blocks;
 using uLearn.Web.Extensions;
@@ -25,7 +30,7 @@ namespace uLearn.Web.Controllers
 	public class ExerciseController : BaseExerciseController
 	{
 		private readonly ExerciseStudentZipsCache exerciseStudentZipsCache;
-
+		
 		public ExerciseController()
 		{
 			exerciseStudentZipsCache = new ExerciseStudentZipsCache();
@@ -472,6 +477,8 @@ namespace uLearn.Web.Controllers
 			Submissions = new List<UserExerciseSubmission>();
 			CurrentSubmissionId = null;
 			CanTryAgain = true;
+			ShowButtons = true;
+			SelectControlName = "version";
 		}
 
 		public string CourseId { get; set; }
@@ -479,6 +486,16 @@ namespace uLearn.Web.Controllers
 		public List<UserExerciseSubmission> Submissions { get; set; }
 		public int? CurrentSubmissionId { get; set; }
 		public bool CanTryAgain { get; set; }
+		public bool ShowButtons { get; set; }
+		public string SelectControlName { get; set; }
+
+		[CanBeNull]
+		public Func<UserExerciseSubmission, string> GetSubmissionDescription { get; set; }
+		
+		/* By default it's Url.RouteUrl("Course.SlideById", new { Model.CourseId, slideId = Model.Slide.Url }) */
+		[CanBeNull]
+		public string FormUrl { get; set; }
+
 	}
 
 	public class ExerciseControlsModel

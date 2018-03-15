@@ -141,7 +141,7 @@ namespace Database.Repos
 			else
 				settings.IsEnabled = isEnabled;
 
-			db.NotificationTransportSettings.AddOrUpdate(settings, s => s.Id == settings.Id);
+			db.AddOrUpdate(settings, s => s.Id == settings.Id);
 			await db.SaveChangesAsync();
 		}
 

@@ -10,10 +10,19 @@ namespace Ulearn.Common.Extensions
 {
 	public static class DbSetExtensions
 	{
-		public static EntityEntry<TEntity> AddOrUpdate<TEntity>(this DbSet<TEntity> dbSet, TEntity entity, Expression<Func<TEntity, bool>> findFunction) where TEntity : class
+		public static EntityEntry<TEntity> AddOrUpdate<TEntity>(this DbContext dbContext, TEntity entity, Expression<Func<TEntity, bool>> findFunction) where TEntity : class
 		{
-			var exists = dbSet.AsNoTracking().Any(findFunction);
-			return exists ? dbSet.Update(entity) : dbSet.Add(entity);
+			var dbSet = dbContext.Set<TEntity>();
+			var exists = dbSet.Any(findFunction);
+			
+			if (!exists)
+				return dbContext.Add(entity);
+
+			var dbValue = dbSet.FirstOrDefault(findFunction);
+			var entry = dbContext.Entry(dbValue);
+			entry.CurrentValues.SetValues(entity);
+			entry.State = EntityState.Modified;
+			return entry;
 		}
 	}
 }

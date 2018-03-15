@@ -30,7 +30,7 @@ namespace AntiPlagiarism.Web.Database.Repos
 		{
 			using (var transaction = db.Database.BeginTransaction())
 			{
-				db.TasksStatisticsParameters.AddOrUpdate(parameters, p => p.TaskId == parameters.TaskId);
+				db.AddOrUpdate(parameters, p => p.TaskId == parameters.TaskId);
 				await db.SaveChangesAsync();
 				transaction.Commit();	
 			}

@@ -16,6 +16,7 @@ using EntityFramework.Functions;
 using log4net;
 using RunCsJob.Api;
 using uLearn;
+using uLearn.Model.Blocks;
 using Ulearn.Common;
 using Ulearn.Common.Extensions;
 
@@ -85,17 +86,7 @@ namespace Database.DataContexts
 
 			db.UserExerciseSubmissions.Add(submission);
 
-			try
-			{
-				await db.SaveChangesAsync();
-			}
-			catch (DbEntityValidationException e)
-			{
-				log.Error(e);
-				throw new Exception(
-					string.Join("\r\n",
-						e.EntityValidationErrors.SelectMany(v => v.ValidationErrors).Select(err => err.PropertyName + " " + err.ErrorMessage)));
-			}
+			await db.SaveChangesAsync();
 
 			return submission;
 		}
@@ -111,6 +102,22 @@ namespace Database.DataContexts
 
 			db.UserExerciseSubmissions.Remove(submission);
 			await db.SaveChangesAsync();
+		}
+
+		public async Task SetAntiPlagiarismSubmissionId(UserExerciseSubmission submission, int antiPlagiarismSubmissionId)
+		{
+			submission.AntiPlagiarismSubmissionId = antiPlagiarismSubmissionId;
+			await db.SaveChangesAsync();
+		}
+
+		public UserExerciseSubmission FindSubmissionByAntiPlagiarismSubmissionId(int antiPlagiarismSubmissionId)
+		{
+			return db.UserExerciseSubmissions.FirstOrDefault(s => s.AntiPlagiarismSubmissionId == antiPlagiarismSubmissionId);
+		}
+
+		public List<UserExerciseSubmission> GetSubmissionsByAntiPlagiarismSubmissionsIds(IEnumerable<int> antiPlagiarismSubmissionsIds)
+		{
+			return db.UserExerciseSubmissions.Where(s => s.AntiPlagiarismSubmissionId.HasValue && antiPlagiarismSubmissionsIds.Contains(s.AntiPlagiarismSubmissionId.Value)).ToList();
 		}
 
 		///<returns>(likesCount, isLikedByThisUsed)</returns>
@@ -416,9 +423,8 @@ namespace Database.DataContexts
 
 			var isWebRunner = checking.CourseId == "web" && checking.SlideId == Guid.Empty;
 			var exerciseSlide = isWebRunner ? null : (ExerciseSlide)courseManager.GetCourse(checking.CourseId).GetSlideById(checking.SlideId);
-
-			var expectedOutput = exerciseSlide?.Exercise.ExpectedOutput.NormalizeEoln();
-			var isRightAnswer = result.Verdict == Verdict.Ok && output.Equals(expectedOutput);
+			
+			var isRightAnswer = IsRightAnswer(result, output, exerciseSlide?.Exercise);
 			var score = isRightAnswer ? exerciseSlide.Exercise.CorrectnessScore : 0;
 
 			/* For skipped slides score is always 0 */
@@ -444,6 +450,23 @@ namespace Database.DataContexts
 			};
 
 			return newChecking;
+		}
+
+		private bool IsRightAnswer(RunningResults result, string output, ExerciseBlock exerciseBlock)
+		{
+			if (result.Verdict != Verdict.Ok )
+				return false;
+
+			if (exerciseBlock.ExerciseType == ExerciseType.CheckExitCode)
+				return true;
+
+			if (exerciseBlock.ExerciseType == ExerciseType.CheckOutput)
+			{
+				var expectedOutput = exerciseBlock?.ExpectedOutput.NormalizeEoln();
+				return output.Equals(expectedOutput);
+			}
+
+			throw new InvalidOperationException($"Unknown exercise type for checking: {exerciseBlock.ExerciseType}");
 		}
 
 		public async Task RunSubmission(UserExerciseSubmission submission, TimeSpan timeout, bool waitUntilChecked)

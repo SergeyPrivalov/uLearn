@@ -40,6 +40,8 @@ namespace AntiPlagiarism.Web.Migrations
                     b.HasIndex("Token")
                         .IsUnique();
 
+                    b.HasIndex("Token", "IsEnabled");
+
                     b.ToTable("Clients");
                 });
 
@@ -158,6 +160,8 @@ namespace AntiPlagiarism.Web.Migrations
                     b.Property<double>("Deviation");
 
                     b.Property<double>("Mean");
+
+                    b.Property<int>("SubmissionsCount");
 
                     b.HasKey("TaskId");
 

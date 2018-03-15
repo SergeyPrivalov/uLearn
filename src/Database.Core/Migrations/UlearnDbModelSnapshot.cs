@@ -1256,6 +1256,8 @@ namespace Database.Migrations
                     b.Property<int>("Id")
                         .ValueGeneratedOnAdd();
 
+                    b.Property<int?>("AntiPlagiarismSubmissionId");
+
                     b.Property<string>("ApplicationUserId");
 
                     b.Property<int>("AutomaticCheckingId");
@@ -1281,6 +1283,8 @@ namespace Database.Migrations
                         .HasMaxLength(64);
 
                     b.HasKey("Id");
+
+                    b.HasIndex("AntiPlagiarismSubmissionId");
 
                     b.HasIndex("ApplicationUserId");
 

@@ -44,7 +44,7 @@ CodeMirror.defineMode("d", function(config, parserConfig) {
     }
     if (ch == "/") {
       if (stream.eat("+")) {
-        state.tokenize = tokenComment;
+        state.tokenize = tokenNestedComment;
         return tokenNestedComment(stream, state);
       }
       if (stream.eat("*")) {
@@ -60,7 +60,7 @@ CodeMirror.defineMode("d", function(config, parserConfig) {
       stream.eatWhile(isOperatorChar);
       return "operator";
     }
-    stream.eatWhile(/[\w\$_]/);
+    stream.eatWhile(/[\w\$_\xa1-\uffff]/);
     var cur = stream.current();
     if (keywords.propertyIsEnumerable(cur)) {
       if (blockKeywords.propertyIsEnumerable(cur)) curPunc = "newstatement";

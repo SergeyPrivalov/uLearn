@@ -24,7 +24,7 @@ using Ulearn.Common.Extensions;
 namespace uLearn.Web.Controllers
 {
 	[ULearnAuthorize]
-	public class CourseController : Controller
+	public class CourseController : BaseController
 	{
 		private static readonly ILog log = LogManager.GetLogger(typeof(CourseController));
 

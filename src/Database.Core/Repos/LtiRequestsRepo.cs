@@ -42,7 +42,7 @@ namespace Database.Repos
 			else
 				ltiRequestModel.Request = ltiRequestJson;
 
-			db.LtiRequests.AddOrUpdate(ltiRequestModel, r => r.RequestId == ltiRequestModel.RequestId);
+			db.AddOrUpdate(ltiRequestModel, r => r.RequestId == ltiRequestModel.RequestId);
 			await db.SaveChangesAsync();
 		}
 

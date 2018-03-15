@@ -42,7 +42,7 @@ namespace Database.Repos
 				Hash = hash,
 				Text = text
 			};
-			db.Texts.AddOrUpdate(blob, b => b.Hash == hash);
+			db.AddOrUpdate(blob, b => b.Hash == hash);
 
 			try
 			{
