@@ -17,7 +17,6 @@ namespace uLearn.CSharp
         }
 
 
-        [TestCase("class A {void SomeMethod(){ string a = \"some string\";}}")]
         [TestCase("class A {void SomeMethod(){ for (Complex complex = new Complex(); complex.GetLength() < 10; complex *= a){}}}")]
         [TestCase(@"class A {void SomeMethod(){ List<string> c = new List<string>();}}")]
         public void Warn_declaration_with_type(string code)
@@ -35,6 +34,7 @@ namespace uLearn.CSharp
         [TestCase(@"class A {void SomeMethod(){ const int x = 5;}}")]
         [TestCase(@"class A {void SomeMethod(){ Exception a = new ArgumentNullException();}}")]
         [TestCase(@"class A {void SomeMethod(){ IList<string> c = new List<string>();}}")]
+        [TestCase("class A {void SomeMethod(){ string a = \"some string\";}}")]
         [TestCase("class A {" +
                   "void SomeMethod(){string a = GetString();}" +
                   "private string GetString(){return \"abc\";}}")]

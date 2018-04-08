@@ -30,7 +30,7 @@ namespace uLearn.CSharp.Validators
                 var initializerTypeInfo = semanticModel.GetTypeInfo(variable.Initializer.Value);
                 var variableTypeInfo = semanticModel.GetTypeInfo(variableDeclarationSyntax.Type);
 
-                if (variableTypeInfo.IsPrimitive())
+                if (variableTypeInfo.IsPrimitive() || variableTypeInfo.Type.SpecialType == SpecialType.System_String)
                     yield break;
 
                 if (Equals(initializerTypeInfo.Type, variableTypeInfo.Type))
